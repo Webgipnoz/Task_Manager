@@ -11,21 +11,13 @@ function App() {
     "all"
   );
 
-  const getFilteredTasks = () => {
-    if (filter === "completed") {
-      return tasks.filter((task) => task.completed);
-    }
-    if (filter === "in-progress") {
-      return tasks.filter((task) => !task.completed);
-    }
-    return tasks;
-  };
-
   const addTask = (title: string, description: string) => {
     const newTask: Task = {
       id: crypto.randomUUID(),
       title,
       description,
+      completed: false,
+      subTasks: [],
     };
     setTasks([...tasks, newTask]);
   };
@@ -42,6 +34,53 @@ function App() {
     );
   };
 
+  const addSubTask = (taskId: string, subTaskTitle: string) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              subTasks: [
+                ...(task.subTasks ?? []),
+                {
+                  id: crypto.randomUUID(),
+                  title: subTaskTitle,
+                  completed: false,
+                },
+              ],
+            }
+          : task
+      )
+    );
+  };
+
+  const toggleSubTaskCompletion = (taskId: string, subTaskId: string) => {
+    setTasks(
+      tasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              subTasks: task.subTasks?.map((subtask) =>
+                subtask.id === subTaskId
+                  ? { ...subtask, completed: !subtask.completed }
+                  : subtask
+              ),
+            }
+          : task
+      )
+    );
+  };
+
+  const getFilteredTasks = () => {
+    if (filter === "completed") {
+      return tasks.filter((task) => task.completed);
+    }
+    if (filter === "in-progress") {
+      return tasks.filter((task) => !task.completed);
+    }
+    return tasks;
+  };
+
   return (
     <div>
       <h1>Task Manager</h1>
@@ -55,6 +94,8 @@ function App() {
         tasks={getFilteredTasks()}
         deleteTask={deleteTask}
         toggleTaskCompleted={toggleTaskCompleted}
+        addSubTask={addSubTask}
+        toggleSubTaskCompleted={toggleSubTaskCompletion}
       ></TasksList>
     </div>
   );

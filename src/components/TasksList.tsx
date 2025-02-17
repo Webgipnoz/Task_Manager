@@ -1,10 +1,14 @@
 import React from "react";
+import SubTasksList from "./SubTasksList";
+
 import { TasksListProps } from "../types/tasks";
 
 const TaskList: React.FC<TasksListProps> = ({
   tasks,
   deleteTask,
   toggleTaskCompleted,
+  addSubTask,
+  toggleSubTaskCompleted,
 }) => {
   return (
     <div>
@@ -19,6 +23,12 @@ const TaskList: React.FC<TasksListProps> = ({
             <button onClick={() => toggleTaskCompleted(task.id)}>
               {task.completed ? "+" : "-"}
             </button>
+            <SubTasksList
+              subTasks={task.subTasks ?? []}
+              taskId={task.id}
+              addSubTask={addSubTask}
+              toggleSubTaskCompleted={toggleSubTaskCompleted}
+            />
           </div>
         ))
       )}
