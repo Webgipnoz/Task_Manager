@@ -8,7 +8,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title.trim()) return console.log("хватит жмякать тут");
+    if (!title.trim()) return;
 
     addTask(title, description);
 
@@ -16,20 +16,22 @@ const TaskForm: React.FC<TaskFormProps> = ({ addTask }) => {
     setDescription("");
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Task Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <textarea
-        placeholder="Task Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <button type="submit">Add Task</button>
-    </form>
+    <div className="task-form">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Task Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <textarea
+          placeholder="Task Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
   );
 };
 

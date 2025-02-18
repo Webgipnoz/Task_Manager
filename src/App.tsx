@@ -82,9 +82,9 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Task Manager</h1>
-      <div>
+      <div className="filter-buttons">
         <button onClick={() => setFilter("all")}>All</button>
         <button onClick={() => setFilter("completed")}>completed</button>
         <button onClick={() => setFilter("in-progress")}>in-progress</button>
